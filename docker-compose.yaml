@@ -1,0 +1,13 @@
+version: 'version 3.9'
+services:
+  teste_sftp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sftp_client_teste
+    secrets:
+      - IDENTITY_FILE
+secrets:
+  IDENTITY_FILE:
+    # external: true # If the secret has already been created previously, uncomment this line and comment the next one
+    file: <path/to/your/ssh/key> # If the secret has not been created yet, uncomment this line, comment the previous one and replace the <path/to/your/ssh/key> with the path to your private key
