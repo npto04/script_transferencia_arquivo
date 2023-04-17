@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Iniciando teste download"
-file=</path/to/file> # Adicione o caminho do arquivo que deseja baixar.
+file=$FILE_DOWNLOAD
 
 echo "################### INFORME AS MENSAGENS DE ERRO ABAIXO ###################"
 sftp_exec="get $SFTP_PATH/$(basename $file) /app/data ; exit"

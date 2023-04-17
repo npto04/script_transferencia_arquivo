@@ -3,7 +3,7 @@
 echo "Iniciando teste de upload"
 
 # Adicione o caminho do arquivo que deseja enviar.
-file=<file_path> 
+file=$FILE_UPLOAD 
 
 echo "################### INFORME AS MENSAGENS DE ERRO ABAIXO ###################"
 

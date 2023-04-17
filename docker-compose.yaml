@@ -1,6 +1,6 @@
 version: 'version 3.9'
 services:
-  sftp_client:
+  sftp_client_run_all:
     image: sftp_client:test
     build:
       context: .
