@@ -1,14 +1,11 @@
 #!/bin/bash
 
-echo "Iniciando teste de upload"
-
-# Adicione o caminho do arquivo que deseja enviar.
-file=<file_path> 
+echo "Iniciando teste download"
+file=</path/to/file> # Adicione o caminho do arquivo que deseja baixar.
 
 echo "################### INFORME AS MENSAGENS DE ERRO ABAIXO ###################"
-
-sftp_exec="put $file $SFTP_PATH/$(basename $file) ; exit"
+sftp_exec="get $SFTP_PATH/$(basename $file) /app/data ; exit"
 sftp -i $ID -P $SFTP_PORT $SFTP_USER@$SFTP_HOST:$SFTP_PATH <<< $sftp_exec
 echo "################### INFORME AS MENSAGENS DE ERRO ACIMA ###################"
-
-echo "Teste finalizado"
+ls -l download/
+echo "Teste download finalizado"

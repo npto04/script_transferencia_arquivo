@@ -1,13 +1,60 @@
 version: 'version 3.9'
 services:
-  teste_sftp:
+  sftp_client:
+    image: sftp_client:test
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: sftp_client_teste
+      args:
+        - SFTP_HOST=${SFTP_HOST}
+    container_name: sftp_client
     secrets:
       - IDENTITY_FILE
+    environment:
+      - ID=/run/secrets/IDENTITY_FILE
+      - SSH_AUTH_SOCK=/tmp/ssh-auth-sock
+    env_file:
+      - .env
+    volumes:
+      - $SSH_AUTH_SOCK:/tmp/ssh-auth-sock
+      - <path/to/your/data>:/app/data:rw # Replace <path/to/your/data> with the path to your data folder. This folder will be mounted to the container and will be used to share the data with the SFTP server.
+  sftp_client_upload:
+    image: sftp_client:upload
+    build:
+      context: .
+      dockerfile: Dockerfile.upload
+      args:
+        - SFTP_HOST=${SFTP_HOST}
+    container_name: sftp_client
+    secrets:
+      - IDENTITY_FILE
+    environment:
+      - ID=/run/secrets/IDENTITY_FILE
+      - SSH_AUTH_SOCK=/tmp/ssh-auth-sock
+    env_file:
+      - .env
+    volumes:
+      - $SSH_AUTH_SOCK:/tmp/ssh-auth-sock
+      - <path/to/your/data>:/app/data:rw # Replace <path/to/your/data> with the path to your data folder. This folder will be mounted to the container and will be used to share the data with the SFTP server.
+  sftp_client_download:
+    image: sftp_client:download
+    build:
+      context: .
+      dockerfile: Dockerfile.download
+      args:
+        - SFTP_HOST=${SFTP_HOST}
+    container_name: sftp_client
+    secrets:
+      - IDENTITY_FILE
+    environment:
+      - ID=/run/secrets/IDENTITY_FILE
+      - SSH_AUTH_SOCK=/tmp/ssh-auth-sock
+    env_file:
+      - .env
+    volumes:
+      - $SSH_AUTH_SOCK:/tmp/ssh-auth-sock
+      - <path/to/your/data>:/app/data:rw # Replace <path/to/your/data> with the path to your data folder. This folder will be mounted to the container and will be used to share the data with the SFTP server.      
 secrets:
   IDENTITY_FILE:
-    # external: true # If the secret has already been created previously, uncomment this line and comment the next one
+    # external: true # If the docker secret has already been created previously, uncomment this line and comment the next one, THEN replace IDENTITY_FILE with the name of your own secret. This name must as well be switched in the environment section as entry for the ID variable. 
     file: <path/to/your/ssh/key> # If the secret has not been created yet, uncomment this line, comment the previous one and replace the <path/to/your/ssh/key> with the path to your private key
